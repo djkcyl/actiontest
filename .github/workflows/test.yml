@@ -3,13 +3,16 @@ name: Release
 on:
   push:
     branches:
-      - master
+      - main
 
   workflow_dispatch:
 
 jobs:
   build:
     name: Build
+    outputs:
+      file: ${{ steps.filename.outputs.file }}
+      buildname: ${{ steps.filename.outputs.buildname }}
     strategy:
       matrix:
         os:
@@ -18,11 +21,6 @@ jobs:
 
     runs-on: ${{ matrix.os }}
     steps:
-      - name: Test File
-        run: |
-          touch
-          nuitka --standalone --show-progress --output-dir=build --user-package-configuration-file=nuitka.yml .\main.py
-
       - name: Get Name
         id: filename
         run: |
@@ -30,4 +28,9 @@ jobs:
           echo 2${{ matrix.os }} > 2${{ matrix.os }}
 
       - name: Upload 
-        
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ matrix.os }}
+          path: |
+            1${{ matrix.os }}
+            2${{ matrix.os }}
