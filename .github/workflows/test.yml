@@ -34,3 +34,8 @@ jobs:
           path: |
             1${{ matrix.os }}
             2${{ matrix.os }}
+            
+      - name: release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: "*"
