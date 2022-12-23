@@ -35,8 +35,10 @@ jobs:
             1${{ matrix.os }}
             2${{ matrix.os }}
             
+      - id: commit
+        uses: pr-mpt/actions-commit-hash@v2
       - name: release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: $(git rev-parse --short "$GITHUB_SHA")
+          tag_name: ${{ steps.commit.outputs.short }}
           files: "*"
