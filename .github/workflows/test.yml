@@ -29,9 +29,9 @@ jobs:
       - name: print
         run: |
           pip install nuitka zstandard orderedset
-          python -m nuitka --onefile --standalone --output-dir=nuitka main.py
+          python -m nuitka --onefile --standalone --assume-yes-for-downloads --output-dir=nuitka main.py
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: test
+          tag_name: test1
           files: nuitka/main.bin
