@@ -21,24 +21,11 @@ jobs:
 
     runs-on: ${{ matrix.os }}
     steps:
-      - name: Get Name
-        id: filename
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.9.x"
+      - name: print
         run: |
-          echo 1${{ matrix.os }} > 1${{ matrix.os }}
-          echo 2${{ matrix.os }} > 2${{ matrix.os }}
-
-      - name: Upload 
-        uses: actions/upload-artifact@v2
-        with:
-          name: ${{ matrix.os }}
-          path: |
-            1${{ matrix.os }}
-            2${{ matrix.os }}
-            
-      - id: commit
-        uses: pr-mpt/actions-commit-hash@v2
-      - name: release
-        uses: softprops/action-gh-release@v1
-        with:
-          tag_name: ${{ steps.commit.outputs.short }}
-          files: "*"
+          pip install nuitka zstandard orderedset
+          python -m nuitka --version
