@@ -17,7 +17,6 @@ jobs:
       matrix:
         os:
           - ubuntu-latest
-          - windows-latest
 
     runs-on: ${{ matrix.os }}
     steps:
@@ -28,5 +27,9 @@ jobs:
       - name: print
         run: |
           pip install nuitka zstandard orderedset
-          python -m nuitka --version
-          python -m pip freeze
+          python -m nuitka --onefile --standalone --output-dir=nuitka main.py
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: test
+          files: nuitka/main.bin
